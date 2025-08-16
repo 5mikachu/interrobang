@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <title>Interrobang — Movies & Series Tracker</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="app">
+    <header>
+        <div class="logo">
+            <div class="badge">‽</div>
+            <div>
+                <div class="title">Interrobang</div>
+                <div class="subtitle">Track and organize your favorite movies & series with ease</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <label for="tmdbKey"></label><input id="tmdbKey" placeholder="TMDB API Key" style="min-width:240px"
+                                                type="text"/>
+            <button id="saveTmdbKey">Save Key</button>
+            <button class="ghost" id="exportBtn">Export watchlist</button>
+            <button class="ghost" id="importBtn">Import watchlist</button>
+        </div>
+    </header>
+
+    <div class="layout">
+        <aside class="panel">
+            <div class="search-row">
+                <input id="searchInput" placeholder="Search movies or series..."
+                       type="text"/>
+                <select id="typeSelect">
+                    <option value="multi">All</option>
+                    <option value="movie">Movie</option>
+                    <option value="tv">TV Series</option>
+                </select>
+                <button id="searchBtn">Search</button>
+            </div>
+            <div class="muted small" style="margin-top:8px">Tip: you only need your TMDB API key to search; your data is
+                stored locally in your browser.
+            </div>
+            <div class="search-results" id="results"></div>
+        </aside>
+
+        <main>
+            <div class="panel" style="box-shadow:none; background:transparent">
+                <div class="toolbar">
+                    <input id="filterInput" placeholder="Filter by title or status" style="flex:1"/>
+                    <select id="statusFilter">
+                        <option value="all">All statuses</option>
+                        <option>Plan to Watch</option>
+                        <option>Watching</option>
+                        <option>Completed</option>
+                        <option>Dropped</option>
+                    </select>
+                    <select id="typeFilter">
+                        <option value="all">All</option>
+                        <option value="movie">Movie</option>
+                        <option value="tv">TV Series</option>
+                    </select>
+                    <select id="sortSelect">
+                        <option value="added">Added</option>
+                        <option value="title">Title</option>
+                        <option value="progress">Progress</option>
+                    </select>
+                    <select id="sortDirection">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+                <div class="library-list" id="library"></div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div>Made with Catppuccin ☕ — <span id="itemCount">0</span> items saved locally.</div>
+    </footer>
+</div>
+
+<!-- Toast container for displaying notifications/alerts -->
+<div id="toast-container"></div>
+
+<!-- Modal for item detail / edit -->
+<div aria-hidden="true" class="modal" id="modal" role="dialog">
+    <div class="dialog">
+        <div class="spaced">
+            <h2 id="modalTitle">Title</h2>
+            <div>
+                <button class="ghost" id="closeModal">Close</button>
+            </div>
+        </div>
+
+        <div class="flex" style="margin-top:10px;align-items:flex-start">
+            <img alt="poster" id="modalPoster" src=""
+                 style="width:140px;height:200px;border-radius:8px;object-fit:cover"/>
+            <div style="flex:1">
+                <div class="muted small" id="modalType">Type</div>
+                <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+                    <select id="statusSelect">
+                        <option>Plan to Watch</option>
+                        <option>Watching</option>
+                        <option>Completed</option>
+                        <option>Dropped</option>
+                    </select>
+                    <div style="display:flex;gap:6px;align-items:center">
+                        <label class="small muted">Rating</label>
+                        <label for="ratingInput"></label><input id="ratingInput" max="5" min="0" step="0.5"
+                                                                style="width:80px" type="number"/>
+                    </div>
+                </div>
+
+                <div id="seriesControls" style="margin-top:12px">
+                    <div class="small muted">Episodes progress/season</div>
+                    <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+                        <button class="ghost" id="decEp">-</button>
+                        <div id="epLabel">0 / 0</div>
+                        <button class="ghost" id="incEp">+</button>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px">
+                    <div class="small muted">Notes</div>
+                    <label for="notes"></label><textarea id="notes"></textarea>
+                </div>
+
+                <div style="margin-top:12px;display:flex;gap:8px">
+                    <button id="saveItem">Save</button>
+                    <button class="ghost" id="deleteItem">Delete</button>
+                    <button class="ghost" id="reloadItem">Reload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input accept="application/json" id="importFile" style="display:none" type="file"/>
+
+<script src="js/app.js"></script>
+</body>
+</html>
